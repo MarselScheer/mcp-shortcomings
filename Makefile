@@ -17,6 +17,11 @@ test:
 	@echo -------------------- $@ $$(date) --------------------
 	uv run pytest
 
+# Test a single test file (Usage: make test-file TEST_FILE=tests/test_storage.py)
+test-file:
+	@echo -------------------- test-file $$(date) --------------------
+	uv run pytest $(TEST_FILE) -v
+
 # ==============================================================================
 # Code Quality
 # ==============================================================================

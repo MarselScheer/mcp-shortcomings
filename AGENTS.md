@@ -10,6 +10,8 @@ A UV managed repo. Key paths/files:
 # Development Commands
 
 - `make run` — Run the application
+- `make test` — Run all tests
+- `make test-file TEST_FILE=path/to/test.py` — Run a single test file
 - `make lint` — Lint code with ruff
 - `make format` — Format code with ruff
 - `make fix` — Auto-fix lint issues

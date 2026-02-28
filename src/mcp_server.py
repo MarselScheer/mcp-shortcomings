@@ -1,7 +1,7 @@
 from fastmcp import FastMCP
 from fastmcp.tools.tool import ToolResult
 from pathlib import Path
-from src.storage import AspectStore
+from storage import AspectStore
 
 
 class ShortcomingsServer:
@@ -63,3 +63,6 @@ class ShortcomingsServer:
 # Default instance
 server = ShortcomingsServer()
 mcp = server.mcp
+
+if __name__ == "__main__":
+    mcp.run()

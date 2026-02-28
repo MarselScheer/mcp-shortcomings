@@ -7,7 +7,7 @@ SHELL:=/bin/bash
 
 run:
 	@echo -------------------- $@ $$(date) --------------------
-	uv run python -m src.main
+	uv run python -m src.mcp_server
 
 # ==============================================================================
 # Testing

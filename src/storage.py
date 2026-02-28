@@ -1,7 +1,8 @@
 """Storage layer for aspects, features, and shortcomings."""
+
 import yaml
 from pathlib import Path
-from src.models import Aspect
+from models import Aspect
 
 
 class AspectStore:
@@ -21,7 +22,12 @@ class AspectStore:
         """Save an aspect to a YAML file."""
         file_path = self._get_aspect_file(aspect.id)
         with open(file_path, "w") as f:
-            yaml.dump(aspect.model_dump(mode="json"), f, default_flow_style=False, sort_keys=False)
+            yaml.dump(
+                aspect.model_dump(mode="json"),
+                f,
+                default_flow_style=False,
+                sort_keys=False,
+            )
 
     def get_aspect(self, aspect_id: str) -> Aspect | None:
         """Load an aspect from its YAML file."""

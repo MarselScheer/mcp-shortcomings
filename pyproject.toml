@@ -25,4 +25,9 @@ where = ["src"]
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
+    "ty>=0.0.19",
 ]
+
+[tool.ty.src]
+include = ["src"]
+

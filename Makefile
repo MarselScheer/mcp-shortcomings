@@ -34,9 +34,13 @@ format:
 	@echo -------------------- $@ $$(date) --------------------
 	uv run ruff format .
 
-check: lint
+check: lint typecheck
 	@echo -------------------- $@ $$(date) --------------------
 	@echo All checks passed!
+
+typecheck:
+	@echo -------------------- $@ $$(date) --------------------
+	uv run ty check
 
 fix: format
 	@echo -------------------- $@ $$(date) --------------------

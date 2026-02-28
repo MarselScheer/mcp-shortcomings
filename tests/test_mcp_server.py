@@ -1,8 +1,8 @@
 import pytest
 from fastmcp.tools.tool import ToolResult
-from src.mcp_server import mcp, ShortcomingsServer
-from src.storage import AspectStore
-from src.models import Aspect, Feature, Shortcoming, Criticality
+from mcp_server import mcp, ShortcomingsServer
+from storage import AspectStore
+from models import Aspect, Feature, Shortcoming, Criticality
 
 
 class TestShortcomingsServerClass:
@@ -119,7 +119,9 @@ class TestToolsWithStore:
         assert any(s["title"] == "Shortcoming 1" for s in shortcomings)
 
     @pytest.mark.anyio
-    async def test_list_features_returns_toolresult_with_structured_content(self, tmp_path):
+    async def test_list_features_returns_toolresult_with_structured_content(
+        self, tmp_path
+    ):
         """list_features should return ToolResult with structured_content like list_aspects."""
         store = AspectStore(tmp_path)
         aspect = Aspect(
@@ -144,7 +146,9 @@ class TestToolsWithStore:
         assert features[0]["title"] == "Feature 1"
 
     @pytest.mark.anyio
-    async def test_list_shortcomings_returns_toolresult_with_structured_content(self, tmp_path):
+    async def test_list_shortcomings_returns_toolresult_with_structured_content(
+        self, tmp_path
+    ):
         """list_shortcomings should return ToolResult with structured_content like list_aspects."""
         store = AspectStore(tmp_path)
         aspect = Aspect(

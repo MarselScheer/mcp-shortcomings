@@ -1,8 +1,9 @@
 """Tests for the storage layer."""
+
 import pytest
 
-from src.models import Aspect, Feature, Shortcoming, Criticality
-from src.storage import AspectStore
+from models import Aspect, Feature, Shortcoming, Criticality
+from storage import AspectStore
 
 
 @pytest.fixture
@@ -23,7 +24,7 @@ def test_save_and_load_aspect_with_models(temp_store):
                 id="user-get-endpoint",
                 title="GET /users endpoint",
                 description="Returns a list of users",
-                tags=["api", "users", "read"]
+                tags=["api", "users", "read"],
             )
         ],
         shortcomings=[
@@ -33,9 +34,9 @@ def test_save_and_load_aspect_with_models(temp_store):
                 description="The users endpoint returns all users at once",
                 criticality=Criticality.MEDIUM,
                 tags=["api", "performance", "pagination"],
-                depends_on_others=False
+                depends_on_others=False,
             )
-        ]
+        ],
     )
 
     temp_store.save_aspect(aspect)
@@ -59,7 +60,7 @@ def test_list_aspects(temp_store):
         description="First aspect",
         user_story="User story 1",
         features=[],
-        shortcomings=[]
+        shortcomings=[],
     )
     aspect2 = Aspect(
         id="aspect-2",
@@ -67,7 +68,7 @@ def test_list_aspects(temp_store):
         description="Second aspect",
         user_story="User story 2",
         features=[],
-        shortcomings=[]
+        shortcomings=[],
     )
     temp_store.save_aspect(aspect1)
     temp_store.save_aspect(aspect2)
@@ -88,7 +89,7 @@ def test_delete_aspect(temp_store):
         description="Will be deleted",
         user_story="User story",
         features=[],
-        shortcomings=[]
+        shortcomings=[],
     )
     temp_store.save_aspect(aspect)
 

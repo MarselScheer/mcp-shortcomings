@@ -58,8 +58,8 @@ class TestToolsWithStore:
         server = ShortcomingsServer(store=store)
         result: ToolResult = await server.mcp.call_tool("list_aspects", {})
 
-        # Parse the JSON response
-        aspects = json.loads(result.content[0].text)
+        # Access via structured_content (dict wrapper)
+        aspects = result.structured_content["aspects"]
 
         # Verify aspect metadata is returned
         assert len(aspects) == 1

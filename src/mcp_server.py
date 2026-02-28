@@ -1,4 +1,5 @@
 from fastmcp import FastMCP
+from fastmcp.tools.tool import ToolResult
 from pathlib import Path
 from src.storage import AspectStore
 
@@ -13,23 +14,26 @@ class ShortcomingsServer:
 
     def _register_tools(self):
         @self.mcp.tool()
-        def list_aspects() -> list[dict]:
+        def list_aspects() -> ToolResult:
             """List all available aspects (without nested features/shortcomings).
-
 
             Use this to discover available aspects first, then use list_features
             or list_shortcomings with a specific aspect_id to dive deeper.
             """
             aspects = self.store.list_aspects()
-            return [
-                {
-                    "id": a.id,
-                    "name": a.name,
-                    "description": a.description,
-                    "user_story": a.user_story,
+            return ToolResult(
+                structured_content={
+                    "aspects": [
+                        {
+                            "id": a.id,
+                            "name": a.name,
+                            "description": a.description,
+                            "user_story": a.user_story,
+                        }
+                        for a in aspects
+                    ]
                 }
-                for a in aspects
-            ]
+            )
 
         @self.mcp.tool()
         def list_features(aspect_id: str) -> list[dict]:

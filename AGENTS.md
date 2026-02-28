@@ -7,9 +7,11 @@ A UV managed repo. Key paths/files:
 - `pyproject.toml` — Python project configuration
 - `uv.lock` — UV lock file
 - `src/main.py` — Main entry point for the application
+- `src/mcp_server.py` — MCP (Model Context Protocol) server implementation
 - `src/models.py` — Data models
 - `src/storage.py` — Storage layer
 - `tests/test_storage.py` — Storage tests
+- `tests/test_mcp_server.py` — MCP server tests
 
 # Core rules
 

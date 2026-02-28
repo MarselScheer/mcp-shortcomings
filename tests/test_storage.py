@@ -98,3 +98,10 @@ def test_delete_aspect(temp_store):
     temp_store.delete_aspect("to-delete")
 
     assert temp_store.get_aspect("to-delete") is None
+
+
+def test_list_aspects_empty_dir_returns_empty_list(temp_store):
+    """Test listing aspects when directory is empty returns empty list."""
+    aspects = temp_store.list_aspects()
+
+    assert aspects == []

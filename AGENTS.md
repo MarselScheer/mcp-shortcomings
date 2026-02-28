@@ -4,7 +4,7 @@ A UV managed repo. Key paths/files:
 
 - `Makefile` — Build and task automation commands
 - `README.org` — Project documentation in Org mode format
-- `main.py` — Main entry point for the application
+- `src/main.py` — Main entry point for the application
 
 
 # Development Commands

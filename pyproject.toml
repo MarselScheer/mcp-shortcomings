@@ -1,0 +1,7 @@
+[project]
+name = "mcp-shortcomings"
+version = "0.0.1"
+description = "MCP server to maintain features and shortcomings of a project"
+readme = "README.org"
+requires-python = ">=3.12"
+dependencies = []

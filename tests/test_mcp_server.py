@@ -1,4 +1,3 @@
-import json
 import pytest
 from fastmcp.tools.tool import ToolResult
 from src.mcp_server import mcp, ShortcomingsServer
@@ -90,7 +89,7 @@ class TestToolsWithStore:
         result: ToolResult = await server.mcp.call_tool(
             "list_features", {"aspect_id": "test"}
         )
-        features = json.loads(result.content[0].text)
+        features = result.structured_content["features"]
         assert any(f["title"] == "Feature 1" for f in features)
 
     @pytest.mark.anyio
@@ -116,5 +115,60 @@ class TestToolsWithStore:
         result: ToolResult = await server.mcp.call_tool(
             "list_shortcomings", {"aspect_id": "test2"}
         )
-        shortcomings = json.loads(result.content[0].text)
+        shortcomings = result.structured_content["shortcomings"]
         assert any(s["title"] == "Shortcoming 1" for s in shortcomings)
+
+    @pytest.mark.anyio
+    async def test_list_features_returns_toolresult_with_structured_content(self, tmp_path):
+        """list_features should return ToolResult with structured_content like list_aspects."""
+        store = AspectStore(tmp_path)
+        aspect = Aspect(
+            id="test",
+            name="Test Aspect",
+            description="test description",
+            user_story="As a user, I want test",
+        )
+        aspect.features.append(
+            Feature(id="f1", title="Feature 1", description="desc 1")
+        )
+        store.save_aspect(aspect)
+
+        server = ShortcomingsServer(store=store)
+        result: ToolResult = await server.mcp.call_tool(
+            "list_features", {"aspect_id": "test"}
+        )
+
+        # Should use structured_content like list_aspects does
+        features = result.structured_content["features"]
+        assert len(features) == 1
+        assert features[0]["title"] == "Feature 1"
+
+    @pytest.mark.anyio
+    async def test_list_shortcomings_returns_toolresult_with_structured_content(self, tmp_path):
+        """list_shortcomings should return ToolResult with structured_content like list_aspects."""
+        store = AspectStore(tmp_path)
+        aspect = Aspect(
+            id="test2",
+            name="Test Aspect 2",
+            description="test description",
+            user_story="As a user, I want test",
+        )
+        aspect.shortcomings.append(
+            Shortcoming(
+                id="s1",
+                title="Shortcoming 1",
+                description="desc 1",
+                criticality=Criticality.HIGH,
+            )
+        )
+        store.save_aspect(aspect)
+
+        server = ShortcomingsServer(store=store)
+        result: ToolResult = await server.mcp.call_tool(
+            "list_shortcomings", {"aspect_id": "test2"}
+        )
+
+        # Should use structured_content like list_aspects does
+        shortcomings = result.structured_content["shortcomings"]
+        assert len(shortcomings) == 1
+        assert shortcomings[0]["title"] == "Shortcoming 1"

@@ -36,20 +36,28 @@ class ShortcomingsServer:
             )
 
         @self.mcp.tool()
-        def list_features(aspect_id: str) -> list[dict]:
+        def list_features(aspect_id: str) -> ToolResult:
             """List all features for a given aspect."""
             aspect = self.store.get_aspect(aspect_id)
             if not aspect:
-                return []
-            return [f.model_dump() for f in aspect.features]
+                return ToolResult(structured_content={"features": []})
+            return ToolResult(
+                structured_content={
+                    "features": [f.model_dump() for f in aspect.features]
+                }
+            )
 
         @self.mcp.tool()
-        def list_shortcomings(aspect_id: str) -> list[dict]:
+        def list_shortcomings(aspect_id: str) -> ToolResult:
             """List all shortcomings for a given aspect."""
             aspect = self.store.get_aspect(aspect_id)
             if not aspect:
-                return []
-            return [s.model_dump() for s in aspect.shortcomings]
+                return ToolResult(structured_content={"shortcomings": []})
+            return ToolResult(
+                structured_content={
+                    "shortcomings": [s.model_dump() for s in aspect.shortcomings]
+                }
+            )
 
 
 # Default instance

@@ -1,6 +1,5 @@
 """Tests for the storage layer."""
 import pytest
-from pathlib import Path
 
 from src.models import Aspect, Feature, Shortcoming, Criticality
 from src.storage import AspectStore

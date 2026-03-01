@@ -1,0 +1,7 @@
+id: append-only-mcp-tools
+title: Append-Only MCP Tool Interface
+description: MCP tools are intentionally designed for record creation (adding aspects,
+  features, and shortcomings). Updates and removals are performed through direct modification
+  of the YAML files in the storage directory, as the storage layer is fully dynamic
+  and reflects file-system changes immediately.
+tags: []

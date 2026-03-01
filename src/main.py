@@ -4,12 +4,13 @@ This module provides the primary entry point for running the
 shortcomings MCP server.
 """
 
+from storage import AspectStore
 from mcp_server import ShortcomingsServer
 
 
 def main() -> None:
     """Run the MCP server."""
-    server = ShortcomingsServer()
+    server = ShortcomingsServer(AspectStore())
     server.mcp.run()
 
 

@@ -137,11 +137,3 @@ class ShortcomingsServer:
             )
             self.store.save_aspect(aspect)
             return ToolResult(structured_content={"success": True})
-
-
-# Default instance
-server = ShortcomingsServer()
-mcp = server.mcp
-
-if __name__ == "__main__":
-    mcp.run()

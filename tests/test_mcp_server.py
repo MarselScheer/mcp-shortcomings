@@ -1,47 +1,47 @@
 import pytest
+from fastmcp import FastMCP
 from fastmcp.tools.tool import ToolResult
-from mcp_server import mcp, ShortcomingsServer
+from mcp_server import ShortcomingsServer
 from storage import AspectStore
 from models import Aspect, Feature, Shortcoming, Criticality
 
 
-class TestShortcomingsServerClass:
-    def test_shortcomings_server_class_exists(self):
-        assert ShortcomingsServer is not None
-
-    def test_mcp_instance_exists(self):
-        assert mcp is not None
-        assert mcp.name == "shortcomings"
+@pytest.fixture
+def mcp(tmp_path) -> FastMCP:
+    """Fixture that provides an MCP instance extracted from ShortcomingServer."""
+    store = AspectStore(tmp_path)
+    server = ShortcomingsServer(store=store)
+    return server.mcp
 
 
 class TestToolsExist:
     @pytest.mark.anyio
-    async def test_list_features_tool_exists(self):
+    async def test_list_features_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "list_features" for tool in tools)
 
     @pytest.mark.anyio
-    async def test_list_shortcomings_tool_exists(self):
+    async def test_list_shortcomings_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "list_shortcomings" for tool in tools)
 
     @pytest.mark.anyio
-    async def test_list_aspects_tool_exists(self):
+    async def test_list_aspects_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "list_aspects" for tool in tools)
 
     @pytest.mark.anyio
-    async def test_add_aspect_tool_exists(self):
+    async def test_add_aspect_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "add_aspect" for tool in tools)
 
     @pytest.mark.anyio
-    async def test_add_feature_tool_exists(self):
+    async def test_add_feature_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "add_feature" for tool in tools)
 
     @pytest.mark.anyio
-    async def test_add_shortcoming_tool_exists(self):
+    async def test_add_shortcoming_tool_exists(self, mcp):
         tools = await mcp.list_tools()
         assert any(tool.name == "add_shortcoming" for tool in tools)
 

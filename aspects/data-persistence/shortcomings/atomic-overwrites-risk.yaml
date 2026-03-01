@@ -1,0 +1,7 @@
+id: atomic-overwrites-risk
+title: Non-Atomic Overwrites Risk
+description: Deletes and replaces the entire aspect directory during updates, which
+  is inefficient and risky.
+criticality: medium
+tags: []
+depends_on_others: false

@@ -12,6 +12,7 @@ A UV managed repo. Key paths/files:
 - `src/storage.py` — Storage layer
 - `tests/test_storage.py` — Storage tests
 - `tests/test_mcp_server.py` — MCP server tests
+- `aspects/` — Aspects, features and shortcomings definitions
 
 # Core rules
 

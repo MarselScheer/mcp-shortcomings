@@ -1,0 +1,6 @@
+id: tool-interface
+name: Tool Interface
+description: MCP server (FastMCP) exposing basic CRUD and search capabilities to AI
+  assistants/clients.
+user_story: As an AI assistant, I want a clear and comprehensive set of tools to interact
+  with the shortcomings database.

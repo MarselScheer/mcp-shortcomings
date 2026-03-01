@@ -105,19 +105,6 @@ class ShortcomingsServer:
             return ToolResult(structured_content={"success": True})
 
         @self.mcp.tool()
-        def search(query: str) -> ToolResult:
-            """Search for a regex pattern across all aspects, features, and shortcomings.
-
-            The search checks all fields of each model including id, name, title, description,
-            user_story, tags, and criticality.
-
-            Args:
-                query: Regex pattern to search for
-            """
-            results = self.store.search(query)
-            return ToolResult(structured_content=results)
-
-        @self.mcp.tool()
         def add_shortcoming(
             aspect_id: str, id: str, title: str, description: str, criticality: str
         ) -> ToolResult:

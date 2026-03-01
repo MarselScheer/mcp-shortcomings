@@ -10,12 +10,7 @@ class ShortcomingsServer:
     """MCP server for managing project aspects, features, and shortcomings."""
 
     def __init__(self, store: AspectStore | None = None) -> None:
-        base_path = os.environ.get("SHORTCOMINGS_PATH")
-        if base_path:
-            base_path = Path(base_path)
-        else:
-            base_path = Path.home() / ".shortcomings"
-        self.store = store or AspectStore(base_path)
+        self.store = store or AspectStore()
         self.mcp = FastMCP("shortcomings")
         self._register_tools()
 

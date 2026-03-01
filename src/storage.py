@@ -1,5 +1,6 @@
 """Storage layer for aspects, features, and shortcomings."""
 
+import os
 import shutil
 import yaml
 from pathlib import Path
@@ -9,8 +10,13 @@ from models import Aspect, Feature, Shortcoming
 class AspectStore:
     """Manages storage of aspects, features, and shortcomings in YAML files."""
 
-    def __init__(self, base_path: Path):
+    def __init__(self, base_path: Path | str | None = None):
         """Initialize the store with a base path for YAML files."""
+        if base_path is None:
+            base_path = Path(os.environ["SHORTCOMINGS_PATH"])
+        else:
+            base_path = Path(base_path)
+        
         self.base_path = base_path
         self.aspects_dir = base_path / "aspects"
         self.aspects_dir.mkdir(parents=True, exist_ok=True)

@@ -34,3 +34,5 @@ Do NOT use `cd` before make targets; make handles directory context internally (
 - `make fix` — Auto-fix lint issues
 - `make typecheck` — Type check with ty
 - `make check` — Run all checks (lint + typecheck)
+- `make list-all-shortcomings` — expects parameter 'crit' and lists all shortcomings for all aspects
+- `make list-shortcomings-of-aspect` — expects parameter 'crit' and 'aspect' list all shortcomings for one aspect

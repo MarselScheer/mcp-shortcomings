@@ -14,52 +14,6 @@ class ShortcomingsServer:
 
     def _register_tools(self):
         @self.mcp.tool()
-        def list_aspects() -> ToolResult:
-            """List all available aspects (without nested features/shortcomings).
-
-            Use this to discover available aspects first, then use list_features
-            or list_shortcomings with a specific aspect_id to dive deeper.
-            """
-            aspects = self.store.list_aspects()
-            return ToolResult(
-                structured_content={
-                    "aspects": [
-                        {
-                            "id": a.id,
-                            "name": a.name,
-                            "description": a.description,
-                            "user_story": a.user_story,
-                        }
-                        for a in aspects
-                    ]
-                }
-            )
-
-        @self.mcp.tool()
-        def list_features(aspect_id: str) -> ToolResult:
-            """List all features for a given aspect."""
-            aspect = self.store.get_aspect(aspect_id)
-            if not aspect:
-                return ToolResult(structured_content={"features": []})
-            return ToolResult(
-                structured_content={
-                    "features": [f.model_dump() for f in aspect.features]
-                }
-            )
-
-        @self.mcp.tool()
-        def list_shortcomings(aspect_id: str) -> ToolResult:
-            """List all shortcomings for a given aspect."""
-            aspect = self.store.get_aspect(aspect_id)
-            if not aspect:
-                return ToolResult(structured_content={"shortcomings": []})
-            return ToolResult(
-                structured_content={
-                    "shortcomings": [s.model_dump() for s in aspect.shortcomings]
-                }
-            )
-
-        @self.mcp.tool()
         def add_aspect(
             id: str, name: str, description: str, user_story: str
         ) -> ToolResult:

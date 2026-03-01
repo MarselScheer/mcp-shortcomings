@@ -45,3 +45,23 @@ typecheck:
 fix: format
 	@echo -------------------- $@ $$(date) --------------------
 	uv run ruff check --fix .
+
+# ==============================================================================
+# Shortcomings
+# ==============================================================================
+
+list-shortcomings-of-aspect:
+	@echo -------------------- $@ $$(date) --------------------
+	@for file in $$(grep -l "criticality: $(crit)" aspects/$(aspect)/shortcomings/*.yaml 2>/dev/null); do \
+		echo "--- $$file ---"; \
+		cat $$file; \
+		echo; \
+	done
+
+list-all-shortcomings:
+	@echo -------------------- $@ $$(date) --------------------
+	@for file in $$(grep -l "criticality: $(crit)" aspects/*/shortcomings/*.yaml 2>/dev/null); do \
+		echo "--- $$file ---"; \
+		cat $$file; \
+		echo; \
+	done

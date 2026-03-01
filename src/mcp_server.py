@@ -1,7 +1,5 @@
-import os
 from fastmcp import FastMCP
 from fastmcp.tools.tool import ToolResult
-from pathlib import Path
 from storage import AspectStore
 from models import Aspect, Feature, Shortcoming, Criticality
 
@@ -105,6 +103,19 @@ class ShortcomingsServer:
             aspect.features.append(Feature(id=id, title=title, description=description))
             self.store.save_aspect(aspect)
             return ToolResult(structured_content={"success": True})
+
+        @self.mcp.tool()
+        def search(query: str) -> ToolResult:
+            """Search for a regex pattern across all aspects, features, and shortcomings.
+
+            The search checks all fields of each model including id, name, title, description,
+            user_story, tags, and criticality.
+
+            Args:
+                query: Regex pattern to search for
+            """
+            results = self.store.search(query)
+            return ToolResult(structured_content=results)
 
         @self.mcp.tool()
         def add_shortcoming(

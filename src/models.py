@@ -1,10 +1,12 @@
 """Pydantic models for aspects, features, and shortcomings."""
+
 from enum import Enum
 from pydantic import BaseModel, Field
 
 
 class Criticality(str, Enum):
     """Criticality level for shortcomings."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -13,6 +15,7 @@ class Criticality(str, Enum):
 
 class Feature(BaseModel):
     """A feature of an aspect."""
+
     id: str
     title: str
     description: str
@@ -21,6 +24,7 @@ class Feature(BaseModel):
 
 class Shortcoming(BaseModel):
     """A shortcoming of an aspect."""
+
     id: str
     title: str
     description: str
@@ -31,6 +35,7 @@ class Shortcoming(BaseModel):
 
 class Aspect(BaseModel):
     """An aspect of the project."""
+
     id: str
     name: str
     description: str

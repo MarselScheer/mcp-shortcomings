@@ -1,0 +1,6 @@
+id: data-modeling
+name: Data Modeling
+description: Pydantic-based schemas for Aspects, Features, and Shortcomings with basic
+  validation.
+user_story: As a developer, I want strict data structures to ensure the integrity
+  of the information I track.

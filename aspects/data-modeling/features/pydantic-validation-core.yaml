@@ -1,0 +1,5 @@
+id: pydantic-validation-core
+title: Pydantic Schema Validation
+description: Uses Pydantic models for Aspect, Feature, and Shortcoming to enforce
+  types and structure.
+tags: []

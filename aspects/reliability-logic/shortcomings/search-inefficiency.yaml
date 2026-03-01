@@ -1,0 +1,7 @@
+id: search-inefficiency
+title: Linear Search Inefficiency
+description: Search performs a full scan of all files in memory, which will degrade
+  performance over time.
+criticality: medium
+tags: []
+depends_on_others: false

@@ -1,0 +1,5 @@
+id: yaml-filesystem-storage
+title: YAML Filesystem Storage
+description: Stores metadata, features, and shortcomings in a directory-per-aspect
+  structure using YAML files.
+tags: []

@@ -1,0 +1,7 @@
+id: id-collision-risk
+title: ID Collision Risk
+description: Lacks checks to prevent overwriting existing aspects when using the add_aspect
+  tool.
+criticality: medium
+tags: []
+depends_on_others: false

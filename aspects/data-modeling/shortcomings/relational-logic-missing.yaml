@@ -1,0 +1,7 @@
+id: relational-logic-missing
+title: Missing Relational Logic Implementation
+description: depends_on_others logic is defined in the model but not supported by
+  storage or API.
+criticality: low
+tags: []
+depends_on_others: false

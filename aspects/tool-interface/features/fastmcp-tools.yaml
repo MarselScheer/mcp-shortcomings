@@ -1,0 +1,5 @@
+id: fastmcp-tools
+title: FastMCP Tools Interface
+description: Exposes basic CRUD (Create and Read) and search functionality through
+  the FastMCP framework.
+tags: []

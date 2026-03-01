@@ -1,0 +1,7 @@
+id: enum-validation-safety
+title: Enum Validation Safety Lack
+description: Runtime exceptions from invalid criticalities are not handled, potentially
+  crashing the server.
+criticality: medium
+tags: []
+depends_on_others: false

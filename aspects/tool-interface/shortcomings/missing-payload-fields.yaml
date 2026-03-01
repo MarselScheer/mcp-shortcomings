@@ -1,0 +1,6 @@
+id: missing-payload-fields
+title: Missing Payload Fields in Tools
+description: add_feature and add_shortcoming do not support optional fields like tags.
+criticality: low
+tags: []
+depends_on_others: false

@@ -1,0 +1,7 @@
+id: environment-fragility
+title: Environment Variable Fragility
+description: The system crashes if the SHORTCOMINGS_PATH environment variable is not
+  explicitly set.
+criticality: medium
+tags: []
+depends_on_others: false

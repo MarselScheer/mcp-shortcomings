@@ -1,0 +1,14 @@
+{
+    "mcpServers": {
+	"shortcomings": {
+	    "env": {"SHORTCOMINGS_PATH": "/home/m/docker_fs/repos/mcp-shortcomings"},
+	    "command": "uv",
+	    "args": [
+		"--directory",
+		"/home/m/docker_fs/mcp-servers/mcp-shortcomings",
+		"run",
+		"src/main.py"
+	    ]
+	}
+    }
+}

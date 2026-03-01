@@ -1,0 +1,6 @@
+id: data-persistence
+name: Data Persistence
+description: File-system based storage using YAML and directory structures organized
+  by Aspect ID.
+user_story: As a developer, I want my data to be saved reliably and efficiently to
+  the filesystem so that it persists across sessions.

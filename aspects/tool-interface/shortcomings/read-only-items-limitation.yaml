@@ -1,0 +1,6 @@
+id: read-only-items-limitation
+title: Read-only Items Limitation
+description: No tools currently exist to delete or update specific features or shortcomings.
+criticality: high
+tags: []
+depends_on_others: false

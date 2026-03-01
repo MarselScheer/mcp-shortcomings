@@ -1,3 +1,4 @@
+import os
 from fastmcp import FastMCP
 from fastmcp.tools.tool import ToolResult
 from pathlib import Path
@@ -9,7 +10,12 @@ class ShortcomingsServer:
     """MCP server for managing project aspects, features, and shortcomings."""
 
     def __init__(self, store: AspectStore | None = None) -> None:
-        self.store = store or AspectStore(Path.home() / ".shortcomings")
+        base_path = os.environ.get("SHORTCOMINGS_PATH")
+        if base_path:
+            base_path = Path(base_path)
+        else:
+            base_path = Path.home() / ".shortcomings"
+        self.store = store or AspectStore(base_path)
         self.mcp = FastMCP("shortcomings")
         self._register_tools()
 

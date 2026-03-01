@@ -45,6 +45,11 @@ class TestToolsExist:
         tools = await mcp.list_tools()
         assert any(tool.name == "add_shortcoming" for tool in tools)
 
+    @pytest.mark.anyio
+    async def test_search_tool_exists(self, mcp):
+        tools = await mcp.list_tools()
+        assert any(tool.name == "search" for tool in tools)
+
 
 class TestToolsWithStore:
     @pytest.mark.anyio

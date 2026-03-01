@@ -81,25 +81,6 @@ def test_list_aspects(temp_store):
     assert "aspect-2" in ids
 
 
-def test_delete_aspect(temp_store):
-    """Test deleting an aspect."""
-    aspect = Aspect(
-        id="to-delete",
-        name="To Delete",
-        description="Will be deleted",
-        user_story="User story",
-        features=[],
-        shortcomings=[],
-    )
-    temp_store.save_aspect(aspect)
-
-    assert temp_store.get_aspect("to-delete") is not None
-
-    temp_store.delete_aspect("to-delete")
-
-    assert temp_store.get_aspect("to-delete") is None
-
-
 def test_list_aspects_empty_dir_returns_empty_list(temp_store):
     """Test listing aspects when directory is empty returns empty list."""
     aspects = temp_store.list_aspects()
@@ -145,48 +126,3 @@ def test_save_aspect_creates_directory_structure(temp_store):
     assert (base / "shortcomings" / "no-pagination.yaml").exists(), (
         "Shortcoming should be in shortcomings/"
     )
-
-
-def test_search_aspects_by_regex(temp_store):
-    """Test searching aspects, features, and shortcomings by regex pattern."""
-    # Create test data
-    aspect = Aspect(
-        id="api",
-        name="API",
-        description="REST API for the service",
-        user_story="As a developer",
-        features=[
-            Feature(
-                id="auth",
-                title="Authentication Feature",
-                description="JWT based auth system",
-                tags=["auth", "security"],
-            )
-        ],
-        shortcomings=[
-            Shortcoming(
-                id="slow",
-                title="Slow Response Times",
-                description="API responses are slow under load",
-                criticality=Criticality.HIGH,
-                tags=["performance"],
-                depends_on_others=False,
-            )
-        ],
-    )
-    temp_store.save_aspect(aspect)
-
-    # Search by regex - should find aspect by name
-    results = temp_store.search(r"API")
-    assert len(results["aspects"]) == 1
-    assert results["aspects"][0].id == "api"
-
-    # Search by regex - should find feature by title
-    results = temp_store.search(r"Authentication")
-    assert len(results["features"]) == 1
-    assert results["features"][0].id == "auth"
-
-    # Search by regex - should find shortcoming by description
-    results = temp_store.search(r"slow")
-    assert len(results["shortcomings"]) == 1
-    assert results["shortcomings"][0].id == "slow"

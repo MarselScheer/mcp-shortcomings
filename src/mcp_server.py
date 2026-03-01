@@ -1,3 +1,4 @@
+import os
 from fastmcp import FastMCP
 from fastmcp.tools.tool import ToolResult
 from pathlib import Path
@@ -9,7 +10,7 @@ class ShortcomingsServer:
     """MCP server for managing project aspects, features, and shortcomings."""
 
     def __init__(self, store: AspectStore | None = None) -> None:
-        self.store = store or AspectStore(Path.home() / ".shortcomings")
+        self.store = store or AspectStore()
         self.mcp = FastMCP("shortcomings")
         self._register_tools()
 
@@ -136,11 +137,3 @@ class ShortcomingsServer:
             )
             self.store.save_aspect(aspect)
             return ToolResult(structured_content={"success": True})
-
-
-# Default instance
-server = ShortcomingsServer()
-mcp = server.mcp
-
-if __name__ == "__main__":
-    mcp.run()

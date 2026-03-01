@@ -105,3 +105,39 @@ def test_list_aspects_empty_dir_returns_empty_list(temp_store):
     aspects = temp_store.list_aspects()
 
     assert aspects == []
+
+
+def test_save_aspect_creates_directory_structure(temp_store):
+    """Test that saving an aspect creates the grep-friendly directory structure."""
+    aspect = Aspect(
+        id="api-endpoints",
+        name="API Endpoints",
+        description="REST API endpoints of the project",
+        user_story="As a developer, I want to know what API endpoints exist",
+        features=[
+            Feature(
+                id="user-get-endpoint",
+                title="GET /users endpoint",
+                description="Returns a list of users",
+                tags=["api", "users", "read"],
+            )
+        ],
+        shortcomings=[
+            Shortcoming(
+                id="no-pagination",
+                title="No pagination support",
+                description="The users endpoint returns all users at once",
+                criticality=Criticality.MEDIUM,
+                tags=["api", "performance", "pagination"],
+                depends_on_others=False,
+            )
+        ],
+    )
+
+    temp_store.save_aspect(aspect)
+
+    # Verify directory structure for grep-ability
+    base = temp_store.aspects_dir / "api-endpoints"
+    assert (base / "aspect.yaml").exists(), "Aspect metadata should be in aspect.yaml"
+    assert (base / "features" / "user-get-endpoint.yaml").exists(), "Feature should be in features/"
+    assert (base / "shortcomings" / "no-pagination.yaml").exists(), "Shortcoming should be in shortcomings/"

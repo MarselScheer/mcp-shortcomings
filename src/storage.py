@@ -1,53 +1,109 @@
 """Storage layer for aspects, features, and shortcomings."""
 
+import os
+import shutil
 import yaml
 from pathlib import Path
-from models import Aspect
+from models import Aspect, Feature, Shortcoming
 
 
 class AspectStore:
     """Manages storage of aspects, features, and shortcomings in YAML files."""
 
-    def __init__(self, base_path: Path):
+    def __init__(self, base_path: Path | str | None = None):
         """Initialize the store with a base path for YAML files."""
+        if base_path is None:
+            base_path = Path(os.environ["SHORTCOMINGS_PATH"])
+        else:
+            base_path = Path(base_path)
+        
         self.base_path = base_path
         self.aspects_dir = base_path / "aspects"
         self.aspects_dir.mkdir(parents=True, exist_ok=True)
 
-    def _get_aspect_file(self, aspect_id: str) -> Path:
-        """Get the file path for an aspect."""
-        return self.aspects_dir / f"{aspect_id}.yaml"
+    def _get_aspect_dir(self, aspect_id: str) -> Path:
+        """Get the directory path for an aspect."""
+        return self.aspects_dir / aspect_id
 
     def save_aspect(self, aspect: Aspect) -> None:
-        """Save an aspect to a YAML file."""
-        file_path = self._get_aspect_file(aspect.id)
-        with open(file_path, "w") as f:
-            yaml.dump(
-                aspect.model_dump(mode="json"),
-                f,
-                default_flow_style=False,
-                sort_keys=False,
-            )
+        """Save an aspect with its features and shortcomings in separate YAML files."""
+        aspect_dir = self._get_aspect_dir(aspect.id)
+        
+        # Remove existing directory if present to ensure clean state
+        if aspect_dir.exists():
+            shutil.rmtree(aspect_dir)
+        
+        aspect_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Save aspect metadata (without features/shortcomings)
+        metadata = aspect.model_dump(exclude={"features", "shortcomings"})
+        aspect_file = aspect_dir / "aspect.yaml"
+        with open(aspect_file, "w") as f:
+            yaml.dump(metadata, f, default_flow_style=False, sort_keys=False)
+        
+        # Save features in separate files
+        features_dir = aspect_dir / "features"
+        features_dir.mkdir(exist_ok=True)
+        for feature in aspect.features:
+            feature_file = features_dir / f"{feature.id}.yaml"
+            with open(feature_file, "w") as f:
+                yaml.dump(feature.model_dump(mode="json"), f, default_flow_style=False, sort_keys=False)
+        
+        # Save shortcomings in separate files
+        shortcomings_dir = aspect_dir / "shortcomings"
+        shortcomings_dir.mkdir(exist_ok=True)
+        for shortcoming in aspect.shortcomings:
+            shortcoming_file = shortcomings_dir / f"{shortcoming.id}.yaml"
+            with open(shortcoming_file, "w") as f:
+                yaml.dump(shortcoming.model_dump(mode="json"), f, default_flow_style=False, sort_keys=False)
 
     def get_aspect(self, aspect_id: str) -> Aspect | None:
-        """Load an aspect from its YAML file."""
-        file_path = self._get_aspect_file(aspect_id)
-        if not file_path.exists():
+        """Load an aspect from its YAML files."""
+        aspect_dir = self._get_aspect_dir(aspect_id)
+        aspect_file = aspect_dir / "aspect.yaml"
+        
+        if not aspect_file.exists():
             return None
-        with open(file_path) as f:
+        
+        # Load aspect metadata
+        with open(aspect_file) as f:
             data = yaml.safe_load(f)
-            return Aspect.model_validate(data)
+        
+        # Load features
+        features = []
+        features_dir = aspect_dir / "features"
+        if features_dir.exists():
+            for feature_file in features_dir.glob("*.yaml"):
+                with open(feature_file) as f:
+                    features.append(Feature.model_validate(yaml.safe_load(f)))
+        
+        # Load shortcomings
+        shortcomings = []
+        shortcomings_dir = aspect_dir / "shortcomings"
+        if shortcomings_dir.exists():
+            for shortcoming_file in shortcomings_dir.glob("*.yaml"):
+                with open(shortcoming_file) as f:
+                    shortcomings.append(Shortcoming.model_validate(yaml.safe_load(f)))
+        
+        data["features"] = features
+        data["shortcomings"] = shortcomings
+        return Aspect.model_validate(data)
 
     def list_aspects(self) -> list[Aspect]:
         """List all aspects."""
         aspects = []
-        for file_path in self.aspects_dir.glob("*.yaml"):
-            with open(file_path) as f:
-                data = yaml.safe_load(f)
-                aspects.append(Aspect.model_validate(data))
+        if not self.aspects_dir.exists():
+            return aspects
+        
+        for aspect_dir in self.aspects_dir.iterdir():
+            if aspect_dir.is_dir():
+                aspect = self.get_aspect(aspect_dir.name)
+                if aspect:
+                    aspects.append(aspect)
         return aspects
 
     def delete_aspect(self, aspect_id: str) -> None:
-        """Delete an aspect's YAML file."""
-        file_path = self._get_aspect_file(aspect_id)
-        file_path.unlink()
+        """Delete an aspect's directory."""
+        aspect_dir = self._get_aspect_dir(aspect_id)
+        if aspect_dir.exists():
+            shutil.rmtree(aspect_dir)
